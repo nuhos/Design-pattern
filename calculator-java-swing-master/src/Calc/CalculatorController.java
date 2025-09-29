@@ -2,14 +2,22 @@ package Calc;
 
 public class CalculatorController {
 
+    private static CalculatorController instance = null;
+
     private final ICalculatorModel model;
     private final CalculatorView view;
 
-    public CalculatorController(ICalculatorModel model, CalculatorView view) {
+    private CalculatorController(ICalculatorModel model, CalculatorView view) {
         this.model = model;
         this.view = view;
     }
 
+    public static CalculatorController getInstance(ICalculatorModel model, CalculatorView view) {
+        if (instance == null) {
+            instance = new CalculatorController(model, view);
+        }
+        return instance;
+    }
 
     private void refresh() {
         view.updateDisplay(model.getCurrentText(), model.getPreviousText());

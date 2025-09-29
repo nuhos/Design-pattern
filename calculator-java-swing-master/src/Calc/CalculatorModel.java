@@ -2,10 +2,21 @@ package Calc;
 
 public class CalculatorModel implements ICalculatorModel {
 
+    private static CalculatorModel instance = null;
 
     private String currentOperand = "";
     private String previousOperand = "";
     private String operation = "";
+
+    private CalculatorModel() {}
+
+    public static CalculatorModel getInstance() {
+        if (instance == null) {
+            instance = new CalculatorModel();
+        }
+        return instance;
+        
+    }
 
     @Override
     public void clear() {
