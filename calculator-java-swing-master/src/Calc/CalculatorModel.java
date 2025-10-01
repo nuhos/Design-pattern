@@ -6,7 +6,7 @@ public class CalculatorModel implements ICalculatorModel {
 
     private String currentOperand = "";
     private String previousOperand = "";
-    private String operation = "";
+    private appOperation operation = null;
 
     private CalculatorModel() {}
 
@@ -22,7 +22,7 @@ public class CalculatorModel implements ICalculatorModel {
     public void clear() {
         currentOperand = "";
         previousOperand = "";
-        operation = "";
+        operation = null;
     }
 
     @Override
@@ -48,15 +48,13 @@ public class CalculatorModel implements ICalculatorModel {
     @Override
     public void chooseOperation(String op) {
         if (currentOperand.equals("") && !previousOperand.equals("")) {
-            operation = op;
             return;
         }
-        if (currentOperand.equals("")) return;
 
         if (!previousOperand.equals("")) {
-            compute(); // يسمح بالحساب المتسلسل
+            compute();
         }
-        operation = op;
+        operation = OperationFactory.getOperation(op);
         previousOperand = currentOperand;
         currentOperand = "";
     }
@@ -65,35 +63,15 @@ public class CalculatorModel implements ICalculatorModel {
     public void compute() {
         if (currentOperand.equals("") || previousOperand.equals("")) return;
 
-        float curr;
-        float prev;
-        try {
-            curr = Float.parseFloat(currentOperand);
-            prev = Float.parseFloat(previousOperand);
-        } catch (NumberFormatException ex) {
-            return;
-        }
+        double num1 = Double.parseDouble(previousOperand);
+        double num2 = Double.parseDouble(currentOperand);
 
-        float result;
-        switch (operation) {
-            case "+" -> result = prev + curr;
-            case "-" -> result = prev - curr;
-            case "×" -> result = prev * curr;
-            case "÷" -> {
-                if (curr == 0) {
-                    clear();
-                    currentOperand = "Error";
-                    return;
-                }
-                result = prev / curr;
-            }
-            default -> { return; }
-        }
+        double result = operation.calculate(num1, num2);
 
-        // تنسيق النتيجة كعدد صحيح إن أمكن
-        currentOperand = ((result - (int) result) != 0) ? Float.toString(result) : Integer.toString((int) result);
+        currentOperand = String.valueOf(result);
         previousOperand = "";
-        operation = "";
+        operation = null;
+
     }
 
     @Override
@@ -118,6 +96,6 @@ public class CalculatorModel implements ICalculatorModel {
 
     @Override
     public String getPreviousText() {
-        return previousOperand + " " + operation;
+        return previousOperand;
     }
 }
