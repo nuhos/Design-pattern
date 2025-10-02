@@ -5,7 +5,7 @@ import javax.swing.SwingUtilities;
 public class App {
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            ICalculatorModel model = CalculatorModel.getInstance();
+            CalculatorModel model = CalculatorModel.getInstance();
             CalculatorView view = new CalculatorView();
             CalculatorController controller = CalculatorController.getInstance(model, view);
             view.setController(controller);

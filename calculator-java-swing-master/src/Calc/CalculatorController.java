@@ -4,15 +4,15 @@ public class CalculatorController {
 
     private static CalculatorController instance = null;
 
-    private final ICalculatorModel model;
+    private final CalculatorModel model;
     private final CalculatorView view;
 
-    private CalculatorController(ICalculatorModel model, CalculatorView view) {
+    private CalculatorController(CalculatorModel model, CalculatorView view) {
         this.model = model;
         this.view = view;
     }
 
-    public static CalculatorController getInstance(ICalculatorModel model, CalculatorView view) {
+    public static CalculatorController getInstance(CalculatorModel model, CalculatorView view) {
         if (instance == null) {
             instance = new CalculatorController(model, view);
         }
