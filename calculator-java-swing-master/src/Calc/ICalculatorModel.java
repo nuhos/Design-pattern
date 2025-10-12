@@ -11,4 +11,8 @@ public interface ICalculatorModel {
 
     String getCurrentText();
     String getPreviousText();
+
+    // Factory method to get operation based on operator string
+    appOperation OperationFactory(String operator);
+
 }
