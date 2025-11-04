@@ -8,10 +8,6 @@ public class App {
     public static void main(String[] args) {
         Locale.setDefault(Locale.US); // force western digits
 
-
-
-public class App {
-    public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             ICalculatorModel model = CalculatorModel.getInstance();
             CalculatorView view = new CalculatorView();
@@ -24,6 +20,3 @@ public class App {
     }
 }
 
-        });
-    }
-}

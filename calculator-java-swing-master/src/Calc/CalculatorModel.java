@@ -2,8 +2,6 @@ package Calc;
 
 import java.util.Locale;
 
-
- 
 public class CalculatorModel implements ICalculatorModel {
 
     private static CalculatorModel instance = null;
@@ -19,7 +17,6 @@ public class CalculatorModel implements ICalculatorModel {
             instance = new CalculatorModel();
         }
         return instance;
-
     }
 
     @Override
@@ -51,7 +48,6 @@ public class CalculatorModel implements ICalculatorModel {
 
     @Override
     public void chooseOperation(String op) {
-
         // === Adapter extension for sin, cos, log ===
         if (op.equals("sin") || op.equals("cos") || op.equals("log")) {
             // For these, user presses op first, then number, then =
@@ -62,7 +58,6 @@ public class CalculatorModel implements ICalculatorModel {
         }
 
         // === Original calculator logic ===
-
         if (currentOperand.equals("") && !previousOperand.equals("")) {
             return;
         }
@@ -78,7 +73,6 @@ public class CalculatorModel implements ICalculatorModel {
 
     @Override
     public void compute() {
-
         if (operation == null) return;
 
         try {
@@ -105,18 +99,6 @@ public class CalculatorModel implements ICalculatorModel {
             previousOperand = "";
             operation = null;
         }
-
-        if (currentOperand.equals("") || previousOperand.equals("")) return;
-
-        double num1 = Double.parseDouble(previousOperand);
-        double num2 = Double.parseDouble(currentOperand);
-
-        double result = operation.calculate(num1, num2);
-
-        currentOperand = String.valueOf(result);
-        previousOperand = "";
-        operation = null;
-
     }
 
     @Override
@@ -168,18 +150,5 @@ public class CalculatorModel implements ICalculatorModel {
         if (Double.isNaN(value) || Double.isInfinite(value)) return "Error";
         String s = String.format(Locale.US, "%.6f", value);
         return s.replaceAll("\\.?0+$", "");
-    }
-        switch (operator) {
-            case "+":
-                return new Addition();
-            case "-":
-                return new Subtraction();
-            case "×":
-                return new Multiplication();
-            case "÷":
-                return new Division();
-            default:
-                throw new IllegalArgumentException("Invalid operator: " + operator);
-        }
     }
 }
