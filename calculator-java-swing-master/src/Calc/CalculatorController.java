@@ -6,6 +6,11 @@ import java.awt.event.ActionListener;
 public class CalculatorController implements ActionListener {
 
     private static CalculatorController instance = null;
+
+public class CalculatorController {
+
+    private static CalculatorController instance = null;
+
     private final ICalculatorModel model;
     private final CalculatorView view;
 
@@ -16,12 +21,17 @@ public class CalculatorController implements ActionListener {
 
     public static CalculatorController getInstance(ICalculatorModel model, CalculatorView view) {
         if (instance == null) instance = new CalculatorController(model, view);
+
+        if (instance == null) {
+            instance = new CalculatorController(model, view);
+        }
         return instance;
     }
 
     private void refresh() {
         view.updateDisplay(model.getCurrentText(), model.getPreviousText());
     }
+
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -38,6 +48,45 @@ public class CalculatorController implements ActionListener {
             case "=": model.compute(); break;
             default: model.chooseOperation(cmd); break;
         }
+
+
+    public void onAppendNumber(String digit) {
+        model.appendNumber(digit);
+        refresh();
+    }
+
+    public void onAppendDot() {
+        model.appendDot();
+        refresh();
+    }
+
+    public void onChooseOperation(String op) {
+        model.chooseOperation(op);
+        refresh();
+    }
+
+    public void onCompute() {
+        model.compute();
+        refresh();
+
+        if ("Error".equals(model.getCurrentText())) {
+            model.clear();
+            refresh();
+        }
+    }
+
+    public void onClear() {
+        model.clear();
+        refresh();
+    }
+
+    public void onDeleteLast() {
+        model.deleteLast();
+        refresh();
+    }
+
+    public void onToggleSign() {
+        model.toggleSign();
         refresh();
     }
 }
