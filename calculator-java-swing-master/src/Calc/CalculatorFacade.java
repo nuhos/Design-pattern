@@ -14,16 +14,16 @@ public class  CalculatorFacade {
     }
 
     // make CalculatorFacade singleton
-public static CalculatorFacade getInstance() {
+    public static CalculatorFacade getInstance() {
         if (instance == null) {
             instance = new CalculatorFacade();
         }
         return instance;
     }
 
-     /**
+    /**
      * Create and connect all subsystems (Model, View, Controller)
-     */
+    */
     private void initializeSubsystems() {
         // === Create model ===
         model = CalculatorModel.getInstance();

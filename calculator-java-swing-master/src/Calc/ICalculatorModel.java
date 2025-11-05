@@ -10,7 +10,7 @@ public interface ICalculatorModel {
     void toggleSign();
 
     // New method for unary operations like square and trigonometric functions
-    void performUnaryOperation(String op);
+    void computeUnaryOperation(String op);
 
     String getCurrentText();
     String getPreviousText();

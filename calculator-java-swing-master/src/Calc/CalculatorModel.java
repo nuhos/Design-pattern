@@ -145,7 +145,7 @@ public class CalculatorModel implements ICalculatorModel {
 
     // added method for performing unary operations like square and trigonometric functions
     @Override
-    public void performUnaryOperation(String op) {
+    public void computeUnaryOperation(String op) {
         if (currentOperand.isBlank() || currentOperand.equals("Error")) {
             return;
         }

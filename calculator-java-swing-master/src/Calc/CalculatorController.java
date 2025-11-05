@@ -65,19 +65,19 @@ public class CalculatorController {
 
     // Handle the x² button click
     public void onSquare() {
-        model.performUnaryOperation("x²"); 
+        model.computeUnaryOperation("x²"); 
         refresh();
     }
 
     // Function to handle SIN button click
     public void onSin() {
-        model.performUnaryOperation("sin"); 
+        model.computeUnaryOperation("sin"); 
         refresh();
     }
     
     // Function to handle COS button click
     public void onCos() {
-        model.performUnaryOperation("cos"); 
+        model.computeUnaryOperation("cos"); 
         refresh();
     }
 }
