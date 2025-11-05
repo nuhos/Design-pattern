@@ -9,19 +9,18 @@ public class App {
         Locale.setDefault(Locale.US); // force western digits
 
         SwingUtilities.invokeLater(() -> {
-          
-        CalculatorFacade facade = CalculatorFacade.getInstance();
-        facade.launchCalculator();
+            CalculatorFacade facade = CalculatorFacade.getInstance();
+            facade.launchCalculator();
 
-           // ICalculatorModel model = CalculatorModel.getInstance();
-           // CalculatorView view = new CalculatorView();
-           // CalculatorController controller = CalculatorController.getInstance(model, view);
-           // view.setController(controller);
+            // ICalculatorModel model = CalculatorModel.getInstance();
+            // CalculatorView view = new CalculatorView();
+            // CalculatorController controller = CalculatorController.getInstance(model, view);
+            // view.setController(controller);
 
-           //view.setVisible(true));
-           //view.setLocationRelativeTo(null));
+            //view.setVisible(true));
+            //view.setLocationRelativeTo(null));
 
-         System.out.println("Calculator app started successfully.");
+            System.out.println("Calculator app started successfully.");
         });
     }
 }

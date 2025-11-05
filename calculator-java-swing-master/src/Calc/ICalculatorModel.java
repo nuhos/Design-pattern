@@ -9,6 +9,9 @@ public interface ICalculatorModel {
     void deleteLast();
     void toggleSign();
 
+    // New method for unary operations like square and trigonometric functions
+    void performUnaryOperation(String op);
+
     String getCurrentText();
     String getPreviousText();
 
