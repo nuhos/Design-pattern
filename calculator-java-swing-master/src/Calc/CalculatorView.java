@@ -281,7 +281,7 @@ public class CalculatorView extends JFrame {
                 btn5, btn6, btn7, btn8, btn9,
                 btnDiv, btnDot, btnEqual, btnDel,
                 btnMult, btnPlus, btnPlusSub, btnSub, btnClear,
-                btnSquare
+                btnSquare, btnPower, btnSin, btnCos
         };
         for (JButton btn : btns) {
             btn.addMouseListener(new MouseAdapter() {
@@ -291,7 +291,7 @@ public class CalculatorView extends JFrame {
 
                 @Override public void mouseExited(MouseEvent e) {
                     Object b = e.getSource();
-                    if (b == btnDiv || b == btnEqual || b == btnDel || b == btnMult || b == btnSub || b == btnPlus || b == btnClear || b == btnSquare) {
+                    if (b == btnDiv || b == btnEqual || b == btnDel || b == btnMult || b == btnSub || b == btnPlus || b == btnClear || b == btnSquare || b == btnPower || b == btnSin || b == btnCos) {
                         ((JButton) b).setBackground(new Color(41, 39, 44));
                     } else {
                         ((JButton) b).setBackground(new Color(21, 20, 22));
