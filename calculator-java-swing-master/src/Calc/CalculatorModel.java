@@ -132,17 +132,6 @@ public class CalculatorModel implements ICalculatorModel {
         }
     }
 
-    // ✅ Adapter-style new operation
-    /*public String square(String number) {
-        try {
-            double value = Double.parseDouble(number);
-            double result = value * value;
-            return String.valueOf(result);
-        } catch (NumberFormatException e) {
-            return "Error";
-        }
-    }*/
-
     // added method for performing unary operations like square and trigonometric functions
     @Override
     public void computeUnaryOperation(String op) {

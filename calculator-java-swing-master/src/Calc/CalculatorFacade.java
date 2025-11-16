@@ -9,8 +9,10 @@ public class  CalculatorFacade {
     private CalculatorController controller;
 
     private CalculatorFacade() {
-        initializeSubsystems();
-
+        model = CalculatorModel.getInstance();
+        view = new CalculatorView();
+        controller = CalculatorController.getInstance(model, view);
+        view.setController(controller);
     }
 
     // make CalculatorFacade singleton
@@ -21,24 +23,7 @@ public class  CalculatorFacade {
         return instance;
     }
 
-    /**
-     * Create and connect all subsystems (Model, View, Controller)
-    */
-    private void initializeSubsystems() {
-        // === Create model ===
-        model = CalculatorModel.getInstance();
-
-        // === Create view ===
-        view = new CalculatorView();
-
-        // === Create controller and connect ===
-        controller = CalculatorController.getInstance(model, view);
-        view.setController(controller);
-    }
-
-    /**
-     * Launch the calculator GUI
-     */
+    // Launch the calculator GUI
     public void launchCalculator() {
         SwingUtilities.invokeLater(() -> {
             view.setVisible(true);

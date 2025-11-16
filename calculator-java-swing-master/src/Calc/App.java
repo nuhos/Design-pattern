@@ -11,15 +11,6 @@ public class App {
         SwingUtilities.invokeLater(() -> {
             CalculatorFacade facade = CalculatorFacade.getInstance();
             facade.launchCalculator();
-
-            // ICalculatorModel model = CalculatorModel.getInstance();
-            // CalculatorView view = new CalculatorView();
-            // CalculatorController controller = CalculatorController.getInstance(model, view);
-            // view.setController(controller);
-
-            //view.setVisible(true));
-            //view.setLocationRelativeTo(null));
-
             System.out.println("Calculator app started successfully.");
         });
     }
