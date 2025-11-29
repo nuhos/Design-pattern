@@ -41,7 +41,8 @@ public class CalculatorView extends JFrame {
     private JButton btnSin;
     private JButton btnCos;
 
-    private CalculatorController controller;
+    private ActionListener controller; // MODIFIED: صار ActionListener بدل CalculatorController
+    // private CalculatorController controller;
 
     public CalculatorView() {
         initComponents();
@@ -55,7 +56,8 @@ public class CalculatorView extends JFrame {
         wireHoverEffects();
     }
 
-    public void setController(CalculatorController controller) {
+    // update new
+    public void setController(ActionListener  controller) {
         this.controller = controller;
         wireActionEventsToController();
     }
@@ -176,6 +178,8 @@ public class CalculatorView extends JFrame {
             b.setMargin(new Insets(0, 0, 0, 0));
             b.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
             b.setBorder(BorderFactory.createLineBorder(new Color(41, 39, 44)));
+
+            b.setActionCommand(b.getText()); // MODIFIED: مهم للكوماند—نربط actionCommand بنص الزر
 
             if (b == btnDiv || b == btnEqual || b == btnDel || b == btnMult || b == btnSub || b == btnPlus || b == btnClear || b == btnSquare || b == btnPower || b == btnSin || b == btnCos) {
                 b.setBackground(new Color(41, 39, 44));
@@ -304,6 +308,27 @@ public class CalculatorView extends JFrame {
     private void wireActionEventsToController() {
         if (controller == null) return;
 
+        JButton[] allButtons = { // MODIFIED: بدال ما ننادي ميثودات، نربط كل الأزرار بالـ controller
+                btnDel, btnClear, btnDiv, btnMult,
+                btn7, btn8, btn9, btnSub,
+                btn4, btn5, btn6, btnPlus,
+                btn1, btn2, btn3, btnPlusSub,
+                btn0, btnDot, btnEqual,
+                btnSquare, btnPower, btnSin, btnCos
+        };
+
+        for (JButton b : allButtons) {
+            b.addActionListener(controller); // MODIFIED: هذا اللي يخلي Command Pattern يشتغل
+        }
+    }
+
+
+
+
+    /*
+    private void wireActionEventsToController() {
+        if (controller == null) return;
+
         ActionListener numberListener = e -> {
             JButton src = (JButton) e.getSource();
             controller.onAppendNumber(src.getText());
@@ -326,7 +351,7 @@ public class CalculatorView extends JFrame {
         getBtnSin().addActionListener(e -> controller.onSin()); 
         getBtnCos().addActionListener(e -> controller.onCos());
     }
-
+    */
     private int dragX, dragY;
     private void addDragBehaviorToTitleBar() {
         titleBar.addMouseListener(new MouseAdapter() {

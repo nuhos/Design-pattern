@@ -48,6 +48,39 @@ public class CalculatorModel implements ICalculatorModel {
 
     @Override
     public void chooseOperation(String op) {
+
+        // ===== CHANGED: معالجة العمليات اليونري (x², sin, cos) بشكل خاص =====
+        if (op.equals("x²") || op.equals("sin") || op.equals("cos")) {
+            if (currentOperand.isBlank() || currentOperand.equals("Error")) {
+                return; // ما عندنا رقم نشتغل عليه
+            }
+
+            try {
+                double a = Double.parseDouble(currentOperand);
+
+                // نستخدم ScientificAdapter عن طريق الـ factory كالمعتاد
+                operation = OperationFactory(op);
+                operationString = op;
+
+                double result = operation.calculate(a, 0); // الباراميتر الثاني مهمل في اليونري
+                currentOperand = String.valueOf(result);
+
+                // نرجع الحالة لوضع طبيعي
+                previousOperand = "";
+                operation = null;
+                operationString = "";
+
+            } catch (NumberFormatException e) {
+                currentOperand = "Error";
+                previousOperand = "";
+                operation = null;
+                operationString = "";
+            }
+            return; // مهم: عشان ما نخشه للمنطق الخاص بالعمليات الثنائية تحت
+        }
+        // ===== نهاية جزء العمليات اليونري =====
+
+        // === نفس منطق العمليات الثنائية القديم (+, -, ×, ÷, ^) ===
         if (currentOperand.equals("") && !previousOperand.equals("")) {
             operation = OperationFactory(op);
             operationString = op;
@@ -68,16 +101,26 @@ public class CalculatorModel implements ICalculatorModel {
 
     @Override
     public void compute() {
+        // العمليات الثنائية فقط تستخدم هنا
+        if (operation == null) return;
         if (currentOperand.equals("") || previousOperand.equals("")) return;
 
-        double num1 = Double.parseDouble(previousOperand);
-        double num2 = Double.parseDouble(currentOperand);
+        try {
+            double num1 = Double.parseDouble(previousOperand);
+            double num2 = Double.parseDouble(currentOperand);
 
-        double result = operation.calculate(num1, num2);
+            double result = operation.calculate(num1, num2);
 
-        currentOperand = String.valueOf(result);
-        previousOperand = "";
-        operation = null;
+            currentOperand = String.valueOf(result);
+            previousOperand = "";
+            operation = null;
+            operationString = "";   // CHANGED: نفرّغ نص العملية بعد ما نخلص
+        } catch (NumberFormatException e) {
+            currentOperand = "Error";
+            previousOperand = "";
+            operation = null;
+            operationString = "";
+        }
     }
 
     @Override
@@ -111,19 +154,14 @@ public class CalculatorModel implements ICalculatorModel {
     @Override
     public appOperation OperationFactory(String operator) {
         switch (operator) {
-            case "+":
-                return new Addition();
-            case "-":
-                return new Subtraction();
-            case "×":
-                return new Multiplication();
-            case "÷":
-                return new Division();
-            //added for scientific operations using Adapter pattern
-            case "x²":
-                return new ScientificAdapter("x²");
-            case "^": 
-                return new ScientificAdapter("^");
+            case "+":  return new Addition();
+            case "-":  return new Subtraction();
+            case "×":  return new Multiplication();
+            case "÷":  return new Division();
+
+            // Scientific operations via Adapter
+            case "x²": return new ScientificAdapter("x²");
+            case "^":  return new ScientificAdapter("^");
             case "sin":
             case "cos":
                 return new ScientificAdapter(operator);
@@ -132,21 +170,11 @@ public class CalculatorModel implements ICalculatorModel {
         }
     }
 
-    // added method for performing unary operations like square and trigonometric functions
+    // ===== CHANGED: نخليها بس تستدعي chooseOperation(op) =====
     @Override
     public void computeUnaryOperation(String op) {
-        if (currentOperand.isBlank() || currentOperand.equals("Error")) {
-            return;
-        }
-
-        try {
-            double curr = Double.parseDouble(currentOperand);
-            appOperation unaryOp = OperationFactory(op);
-            double result = unaryOp.calculate(curr, 0); 
-            
-            currentOperand = String.valueOf(result); 
-        } catch (NumberFormatException e) {
-            currentOperand = "Error";
-        }
+        // كذا لو عندك Command خاص لليونري يستدعي هذه الميثود،
+        // هي بدورها تستخدم نفس منطق chooseOperation لليونري
+        chooseOperation(op);
     }
 }
