@@ -28,10 +28,6 @@ public class CalculatorController implements ActionListener {
         return instance;
     }
 
-    private void refresh() {
-        view.updateDisplay(model.getCurrentText(), model.getPreviousText());
-    }
-
     private void initCommands() {
         // NEW: هنا ربطنا كل زر بكوماند بدال ما يكون switch
 
@@ -59,8 +55,8 @@ public class CalculatorController implements ActionListener {
         // ==== العمليات الأساسية ====
         commands.put("+", new ChooseOperationCommand(model, "+")); // NEW
         commands.put("-", new ChooseOperationCommand(model, "-")); // NEW
-        commands.put("x", new ChooseOperationCommand(model, "x")); // NEW (حسب زرّك)
-        commands.put("/", new ChooseOperationCommand(model, "/")); // NEW
+        commands.put("×", new ChooseOperationCommand(model, "×")); // NEW (حسب زرّك)
+        commands.put("÷", new ChooseOperationCommand(model, "÷")); // NEW
 
         // ==== العمليات العلمية (مع Adapter) ====
         commands.put("^",  new ChooseOperationCommand(model, "^"));   // NEW
@@ -82,7 +78,7 @@ public class CalculatorController implements ActionListener {
         if (cmd == null) return;         // NEW: لو زر مو مربوط نتجاهله
 
         cmd.execute();                   // NEW: بدل ما نسوي switch / if
-        refresh();                       // SAME: نحدث الفيو بعد التنفيذ
+
     }
 
 

@@ -18,4 +18,7 @@ public interface ICalculatorModel {
     // Factory method to get operation based on operator string
     appOperation OperationFactory(String operator);
 
+    // Observer pattern methods
+    void attach(IObserver observer);
+    void notifyObservers();
 }

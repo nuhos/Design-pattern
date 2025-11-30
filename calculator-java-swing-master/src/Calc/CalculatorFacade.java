@@ -12,7 +12,9 @@ public class  CalculatorFacade {
         model = CalculatorModel.getInstance();
         view = new CalculatorView();
         controller = CalculatorController.getInstance(model, view);
+        view.setModel(model); // set model in view
         view.setController(controller);
+        ((CalculatorModel) model).attach(view);// register view as observer
     }
 
     // make CalculatorFacade singleton

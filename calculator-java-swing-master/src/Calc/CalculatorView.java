@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class CalculatorView extends JFrame {
+public class CalculatorView extends JFrame implements IObserver {
 
     private JPanel app;
     private JPanel resultsPanel;
@@ -44,6 +44,9 @@ public class CalculatorView extends JFrame {
     private ActionListener controller; // MODIFIED: صار ActionListener بدل CalculatorController
     // private CalculatorController controller;
 
+    // important for observer pattern implementation
+    private ICalculatorModel model;
+
     public CalculatorView() {
         initComponents();
 
@@ -54,6 +57,19 @@ public class CalculatorView extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
         wireHoverEffects();
+    }
+
+    // observer pattern method
+    public void setModel(ICalculatorModel model) {
+        this.model = model;
+        update();
+    }
+    
+    @Override
+    public void update() {
+        if (model != null) {
+            updateDisplay(model.getCurrentText(), model.getPreviousText());
+        }
     }
 
     // update new

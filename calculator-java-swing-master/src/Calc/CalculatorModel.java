@@ -1,5 +1,8 @@
 package Calc;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class CalculatorModel implements ICalculatorModel {
 
     private static CalculatorModel instance = null;
@@ -8,6 +11,8 @@ public class CalculatorModel implements ICalculatorModel {
     private String previousOperand = "";
     private appOperation operation = null;
     private String operationString = "";
+
+    private final List<IObserver> observers = new ArrayList<>(); // Observer pattern list
 
     private CalculatorModel() {}
 
@@ -18,12 +23,26 @@ public class CalculatorModel implements ICalculatorModel {
         return instance;
     }
 
+    // observer pattern methods
+    @Override
+    public void attach(IObserver observer) {
+        observers.add(observer);
+    }
+
+    @Override
+    public void notifyObservers() {
+        for (IObserver observer : observers) {
+            observer.update();
+        }
+    }
+
     @Override
     public void clear() {
         currentOperand = "";
         previousOperand = "";
         operation = null;
         operationString = "";
+        notifyObservers(); //notify observers about the change
     }
 
     @Override
@@ -33,16 +52,19 @@ public class CalculatorModel implements ICalculatorModel {
             currentOperand = "";
         }
         currentOperand += number;
+        notifyObservers(); //notify observers about the change
     }
 
     @Override
     public void appendDot() {
         if (currentOperand.isBlank()) {
             currentOperand = "0.";
+            notifyObservers(); //notify observers about the change
             return;
         }
         if (!currentOperand.contains(".")) {
             currentOperand += ".";
+            notifyObservers(); //notify observers about the change
         }
     }
 
@@ -76,6 +98,7 @@ public class CalculatorModel implements ICalculatorModel {
                 operation = null;
                 operationString = "";
             }
+            notifyObservers(); // send notification after unary operation
             return; // مهم: عشان ما نخشه للمنطق الخاص بالعمليات الثنائية تحت
         }
         // ===== نهاية جزء العمليات اليونري =====
@@ -84,6 +107,7 @@ public class CalculatorModel implements ICalculatorModel {
         if (currentOperand.equals("") && !previousOperand.equals("")) {
             operation = OperationFactory(op);
             operationString = op;
+            notifyObservers(); //add notification after changing operation
             return;
         }
 
@@ -97,6 +121,7 @@ public class CalculatorModel implements ICalculatorModel {
         operationString = op;
         previousOperand = currentOperand;
         currentOperand = "";
+        notifyObservers(); //add notification after choosing operation
     }
 
     @Override
@@ -121,6 +146,7 @@ public class CalculatorModel implements ICalculatorModel {
             operation = null;
             operationString = "";
         }
+        notifyObservers(); //add notification after computation
     }
 
     @Override
@@ -128,6 +154,7 @@ public class CalculatorModel implements ICalculatorModel {
         if (!currentOperand.equals("") && !currentOperand.equals("Error")) {
             currentOperand = currentOperand.substring(0, currentOperand.length() - 1);
         }
+        notifyObservers(); //notify observers about the change
     }
 
     @Override
@@ -136,6 +163,7 @@ public class CalculatorModel implements ICalculatorModel {
             float tmp = -Float.parseFloat(currentOperand);
             currentOperand = ((tmp - (int) tmp) != 0) ? Float.toString(tmp) : Integer.toString((int) tmp);
         }
+        notifyObservers(); //notify observers about the change
     }
 
     @Override
