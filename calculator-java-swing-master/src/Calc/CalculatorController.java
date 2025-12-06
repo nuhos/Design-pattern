@@ -9,16 +9,16 @@ public class CalculatorController implements ActionListener {
 
     private static CalculatorController instance = null;
 
-    private final ICalculatorModel model;
+    //private final ICalculatorModel model;
     private final CalculatorView view;
 
     private final Map<String, Command> commands = new HashMap<>();
     // NEW: هذي أهم إضافة: جدول يربط actionCommand لكل زر بالكوماند المناسب
 
     private CalculatorController(ICalculatorModel model, CalculatorView view) {
-        this.model = model;
+        //this.model = model;
         this.view = view;
-        initCommands();
+        initCommands(model);
     }
 
     public static CalculatorController getInstance(ICalculatorModel model, CalculatorView view) {
@@ -28,7 +28,7 @@ public class CalculatorController implements ActionListener {
         return instance;
     }
 
-    private void initCommands() {
+    private void initCommands(ICalculatorModel model) {
         // NEW: هنا ربطنا كل زر بكوماند بدال ما يكون switch
 
         // ==== أزرار الأرقام ====
